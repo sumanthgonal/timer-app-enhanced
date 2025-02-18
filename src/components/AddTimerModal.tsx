@@ -9,13 +9,13 @@ interface AddTimerModalProps {
 }
 
 export const AddTimerModal: React.FC<AddTimerModalProps> = ({ isOpen, onClose }) => {
-  const [title, setTitle] = useState('');
+  const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [touched, setTouched] = useState({
-    title: false,
+    name: false,
     hours: false,
     minutes: false,
     seconds: false,
@@ -28,28 +28,27 @@ export const AddTimerModal: React.FC<AddTimerModalProps> = ({ isOpen, onClose })
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!validateTimerForm({ title, description, hours, minutes, seconds })) {
+    if (!validateTimerForm({ name, description, hours, minutes, seconds })) {
       return;
     }
 
     const totalSeconds = hours * 3600 + minutes * 60 + seconds;
     
     addTimer({
-      title: title.trim(),
-      description: description.trim(),
+      name: name.trim(),
       duration: totalSeconds,
       remainingTime: totalSeconds,
       isRunning: false,
     });
 
     onClose();
-    setTitle('');
+    setName('');
     setDescription('');
     setHours(0);
     setMinutes(0);
     setSeconds(0);
     setTouched({
-      title: false,
+      name: false,
       hours: false,
       minutes: false,
       seconds: false,
@@ -59,7 +58,7 @@ export const AddTimerModal: React.FC<AddTimerModalProps> = ({ isOpen, onClose })
   const handleClose = () => {
     onClose();
     setTouched({
-      title: false,
+      name: false,
       hours: false,
       minutes: false,
       seconds: false,
@@ -67,7 +66,7 @@ export const AddTimerModal: React.FC<AddTimerModalProps> = ({ isOpen, onClose })
   };
 
   const isTimeValid = hours > 0 || minutes > 0 || seconds > 0;
-  const isTitleValid = title.trim().length > 0 && title.length <= 50;
+  const isNameValid = name.trim().length > 0 && name.length <= 50;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
@@ -92,24 +91,24 @@ export const AddTimerModal: React.FC<AddTimerModalProps> = ({ isOpen, onClose })
             </label>
             <input
               type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              onBlur={() => setTouched({ ...touched, title: true })}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              onBlur={() => setTouched({ ...touched, name: true })}
               maxLength={50}
               className={` ${
-                touched.title && !isTitleValid
+                touched.name && !isNameValid
                   ? 'border-red-500'
                   : 'border-gray-300'
               }`}
               placeholder="Enter timer title"
             />
-            {touched.title && !isTitleValid && (
+            {touched.name && !isNameValid && (
               <p className="mt-1 text-sm text-red-500">
                 Title is required and must be less than 50 characters
               </p>
             )}
             <p className="mt-1 text-sm text-gray-500">
-              {title.length}/50 characters
+              {name.length}/50 characters
             </p>
           </div>
           
@@ -186,11 +185,11 @@ export const AddTimerModal: React.FC<AddTimerModalProps> = ({ isOpen, onClose })
             <button
               type="submit"
               className={`px-4 py-2 text-sm font-medium text-white rounded-md transition-colors ${
-                isTitleValid && isTimeValid
+                isNameValid && isTimeValid
                   ? 'bg-blue-600 hover:bg-blue-700'
                   : 'bg-blue-400 cursor-not-allowed'
               }`}
-              disabled={!isTitleValid || !isTimeValid}
+              disabled={!isNameValid || !isTimeValid}
             >
               Add Timer
             </button>

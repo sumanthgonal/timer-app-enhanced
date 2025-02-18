@@ -1,9 +1,9 @@
 export interface Timer {
   id: string;
-  title: string;
-  description: string;
-  duration: number; // in seconds
+  name: string;
+  duration: number;
   remainingTime: number;
   isRunning: boolean;
   createdAt: number;
+  intervalId?: number; // Add this for simultaneous timers
 }

@@ -82,3 +82,23 @@ export class TimerAudio {
     }
   }
 }
+
+let audio: HTMLAudioElement | null = null;
+
+export const playTimerCompleteSound = () => {
+  if (!audio) {
+    audio = new Audio('/timer-complete.mp3'); // Make sure to add this sound file to your public directory
+  }
+  
+  audio.currentTime = 0;
+  audio.play().catch(error => {
+    console.error('Error playing audio:', error);
+  });
+};
+
+export const stopTimerSound = () => {
+  if (audio) {
+    audio.pause();
+    audio.currentTime = 0;
+  }
+};

@@ -1,23 +1,23 @@
 import { toast } from 'sonner';
 
 export interface TimerFormData {
-  title: string;
-  description: string;
+  name: string;
+  description?: string;
   hours: number;
   minutes: number;
   seconds: number;
 }
 
 export const validateTimerForm = (data: TimerFormData): boolean => {
-  const { title, hours, minutes, seconds } = data;
+  const { name, hours, minutes, seconds } = data;
   
-  if (!title.trim()) {
-    toast.error('Title is required');
+  if (!name.trim()) {
+    toast.error('Name is required');
     return false;
   }
 
-  if (title.length > 50) {
-    toast.error('Title must be less than 50 characters');
+  if (name.length > 50) {
+    toast.error('Name must be less than 50 characters');
     return false;
   }
 
@@ -43,4 +43,31 @@ export const validateTimerForm = (data: TimerFormData): boolean => {
   }
 
   return true;
+};
+
+interface TimerInput {
+  name: string;
+  duration: number;
+}
+
+export const validateTimer = (timer: TimerInput): string[] => {
+  const errors: string[] = [];
+
+  if (!timer.name.trim()) {
+    errors.push('Timer name is required');
+  }
+
+  if (timer.name.length > 50) {
+    errors.push('Timer name must be less than 50 characters');
+  }
+
+  if (!timer.duration || timer.duration <= 0) {
+    errors.push('Duration must be greater than 0');
+  }
+
+  if (timer.duration > 86400) { // 24 hours in seconds
+    errors.push('Duration cannot exceed 24 hours');
+  }
+
+  return errors;
 };

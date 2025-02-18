@@ -142,3 +142,110 @@ You are expected to complete this assignment in **4 hours** of focused effort.
 If you have any questions or issues, feel free to reach out via the provided contact channels in the repository.
 
 Good luck! 🚀
+
+still you can run these in same way like npm run dev
+
+1. Allow Multiple Timers to Run Simultaneously
+Updates Required:
+
+    Modify the state management to store multiple timers.
+    Update the timer logic to allow multiple setInterval instances.
+    Ensure the UI updates correctly for each active timer.
+
+Files to Update:
+
+    TimerContext.tsx  useState in the component managing timers.
+    TimerItem.tsx to reflect multiple running timers.
+
+2. Update Snack Bar Behavior
+Updates Required:
+
+    Modify the snack bar component to display a notification when a timer ends.
+    Ensure the sound plays and stops only when the snack bar is dismissed.
+    Handle event listeners for dismissing the snack bar.
+
+Files to Update:
+
+    Snackbar.tsx (or wherever snack bars are handled).
+    TimerItem.tsx (to trigger snack bar on completion).
+
+3. Fix Snack Bar Console Error
+Updates Required:
+
+    Investigate and fix state updates after unmount.
+    Ensure that clicking dismiss doesn’t trigger a missing reference error.
+    Use useEffect cleanup if needed.
+
+Files to Update:
+
+    Snackbar.tsx
+    App.tsx or wherever snack bars are triggered
+
+4. Extract Common Buttons as a Reusable Component
+Updates Required:
+
+    Create a ModalButtons.tsx component.
+    Replace all similar buttons with this reusable component.
+    Pass props like onClick, label, variant, etc.
+
+Files to Update:
+
+    ModalButtons.tsx (new file).
+    AddTimerModal.tsx and EditTimerModal.tsx (replace buttons).
+
+5. Consolidate Modals for Add/Edit Timer
+Updates Required:
+
+    Merge AddTimerModal.tsx and EditTimerModal.tsx into a single component (TimerModal.tsx).
+    Use props like mode (add or edit) to differentiate.
+    Remove redundant modal code.
+
+Files to Update:
+
+    TimerModal.tsx (new file).
+    Remove AddTimerModal.tsx and EditTimerModal.tsx.
+
+6. Show Validation Snack Bars
+Updates Required:
+
+    Remove disabled from Submit button when form is invalid.
+    Show an error snack bar instead when submission fails.
+    Validate inside the submit handler.
+
+Files to Update:
+
+    TimerModal.tsx (form validation logic).
+    Snackbar.tsx (to handle validation errors).
+
+7. Responsive Snack Bar Placement
+Updates Required:
+
+    Use window.innerWidth or CSS media queries to adjust placement.
+    Show snack bars top-right on desktop and bottom on mobile.
+
+Files to Update:
+
+    Snackbar.tsx (CSS updates).
+
+8. Write Tests
+Updates Required:
+
+    Validation Tests (validation.ts): Ensure all validation rules work.
+    Component Tests (TimerItem.tsx, ModalButtons.tsx): Verify rendering and user interactions.
+
+Files to Update:
+
+    __tests__/validation.test.ts (new file).
+    __tests__/TimerItem.test.tsx (new file).
+    __tests__/ModalButtons.test.tsx (new file).
+
+9. Persist Timers Across Refresh
+Updates Required:
+
+    Save timers in localStorage on update.
+    Retrieve timers from localStorage on app load.
+    Ensure that timers resume properly.
+
+Files to Update:
+
+    TimerContext.tsx or the component managing timers.

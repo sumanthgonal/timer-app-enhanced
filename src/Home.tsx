@@ -1,11 +1,40 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Plus, Clock } from 'lucide-react';
 import { TimerList } from './components/TimerList';
-import { AddTimerModal } from './components/AddTimerModal';
+import { TimerModal } from './components/TimerModal';
 import { Toaster } from 'sonner';
+import { useTimerStore } from './store/useTimerStore';
+import { Snackbar } from './components/Snackbar';
+import { Timer } from './types/timer';
 
 function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { timers, updateTimer, showSnackbar, editTimer, addTimer } = useTimerStore();
+  const [editingTimer, setEditingTimer] = useState<Timer | undefined>(undefined);
+
+  useEffect(() => {
+    const intervals: number[] = [];
+
+    timers.forEach(timer => {
+      if (timer.isRunning) {
+        const intervalId = setInterval(() => {
+          updateTimer(timer.id);
+          
+          // Check if timer just completed
+          if (timer.remainingTime <= 1) {
+            showSnackbar(`Timer "${timer.name}" has completed!`);
+            // Play sound here
+          }
+        }, 1000);
+        
+        intervals.push(intervalId);
+      }
+    });
+
+    return () => {
+      intervals.forEach(clearInterval);
+    };
+  }, [timers, updateTimer, showSnackbar]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
@@ -27,10 +56,22 @@ function Home() {
         
         <TimerList />
         
-        <AddTimerModal
+        <TimerModal
           isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
+          onClose={() => {
+            setIsModalOpen(false);
+            setEditingTimer(undefined);
+          }}
+          timer={editingTimer}
+          onSubmit={(timerData) => {
+            if (editingTimer) {
+              editTimer(editingTimer.id, timerData);
+            } else {
+              addTimer(timerData);
+            }
+          }}
         />
+        <Snackbar />
       </div>
     </div>
   );

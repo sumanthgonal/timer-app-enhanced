@@ -29,7 +29,7 @@ export const TimerItem: React.FC<TimerItemProps> = ({ timer }) => {
           hasEndedRef.current = true;
           timerAudio.play().catch(console.error);
           
-          toast.success(`Timer "${timer.title}" has ended!`, {
+          toast.success(`Timer "${timer.name}" has ended!`, {
             duration: 5000,
             action: {
               label: 'Dismiss',
@@ -41,7 +41,7 @@ export const TimerItem: React.FC<TimerItemProps> = ({ timer }) => {
     }
 
     return () => clearInterval(intervalRef.current!);
-  }, [timer.isRunning, timer.id, timer.remainingTime, timer.title, timerAudio, updateTimer]);
+  }, [timer.isRunning, timer.id, timer.remainingTime, timer.name, timerAudio, updateTimer]);
 
   const handleRestart = () => {
     hasEndedRef.current = false;
@@ -78,8 +78,7 @@ export const TimerItem: React.FC<TimerItemProps> = ({ timer }) => {
         <div className="relative">
           <div className="flex justify-between items-start mb-4">
             <div>
-              <h3 className="text-xl font-semibold text-gray-800">{timer.title}</h3>
-              <p className="text-gray-600 mt-1">{timer.description}</p>
+              <h3 className="text-xl font-semibold text-gray-800">{timer.name}</h3>
             </div>
             <div className="flex gap-2">
               <button
@@ -117,7 +116,6 @@ export const TimerItem: React.FC<TimerItemProps> = ({ timer }) => {
             <TimerControls
               isRunning={timer.isRunning}
               remainingTime={timer.remainingTime}
-              duration={timer.duration}
               onToggle={handleToggle}
               onRestart={handleRestart}
             />
