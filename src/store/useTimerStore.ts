@@ -58,7 +58,7 @@ export const useTimerStore = create<TimerStore>((set) => ({
       timers: state.timers.map((timer) =>
         timer.id === id ? { ...timer, isRunning: !timer.isRunning } : timer
       ),
-    })),
+    })), #time
   restartTimer: (id) =>
     set((state) => ({
       timers: state.timers.map((timer) =>
