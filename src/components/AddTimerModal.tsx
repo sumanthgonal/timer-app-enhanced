@@ -7,7 +7,7 @@ interface AddTimerModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
+#this will 
 export const AddTimerModal: React.FC<AddTimerModalProps> = ({ isOpen, onClose }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
